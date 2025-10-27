@@ -12,11 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->engine = 'InnoDB'; 
             $table->id('transaction_id');
-            $table->foreignId('user_id')
-                    ->constrained('users', 'user_id')
-                    ->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories', 'category_id')->onDelete('cascade');
             $table->enum('type', ['income','expense']);
             $table->string('category');
             $table->integer('amount');

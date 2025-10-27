@@ -12,11 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notifications', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->id('notification_id');
-            $table->foreignId('transaction_id')
-                    ->constrained('transactions', 'transaction_id')
-                    ->onDelete('cascade');
+            $table->foreignId('transaction_id')->constrained('transactions', 'transaction_id')->onDelete('cascade');
             // $table->unsignedBigInteger('transaction_id');
             // $table->foreign('transaction_id')->references('transaction_id')->on('transactions')->onDelete("cascade");
             $table->string('sent_to');
