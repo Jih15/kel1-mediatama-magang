@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Role\Admin\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,4 +29,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('transaction', TransactionController::class);
+    Route::get('report')->name('report');
+    Route::post('generate-report')->name('generate.report');
+});
+
+Route::prefix('manager')->name('manager')->group(function () {
+    Route::get('report')->name('report');
+    Route::get('generate-report')->name('generate.report');
+});
+
+
+require __DIR__ . '/auth.php';
