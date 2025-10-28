@@ -32,24 +32,35 @@
                             </thead>
 
                             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                                <tr class="*:text-gray-900 *:midle:font-medium dark:*:text-white text-left">
-                                    <td class="px-3 py-2">1</td>
-                                    <td class="px-3 py-2">Fajar</td>
-                                    <td class="px-3 py-2">xxx</td>
-                                    <td class="px-3 py-2">$12345</td>
-                                    <th class="px-3 py-2">Oct 27</th>
+                                @foreach ( $transaction as $index => $item )
+                                <tr class="*:text-gray-900 *:first:font-medium">
+                                    <td class="px-3 py-2 whitespace-nowrap">{{ $index + 1 }}</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">{{ $item->user->name ?? '-' }}</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">{{ $item->category->name ?? '-'}}</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">{{ number_format($item->amount, 0, ',', '.') }}</td>
+                                    <td class="px-3 py-2 whitespace-nowrap">{{ \Carbon\Carbon::parse($item->transaction_date)->format('d M Y') }}</td>
+                                    {{-- <a href="{{ route('admin.transaction.edit', $item->transaction_id) }}" class="text-indigo-500 hover:underline">Edit</a> --}}
                                     <th class="px-3 py-2">
                                         <div class="flex gap-3">
-                                            <a href="{{ route('admin.transaction.edit',1) }}"
-                            class="inline-block rounded-lg bg-orange-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-orange-700 focus:outline-none focus:ring focus:ring-Orange-300 transition">
-                            Edit
-                        </a>
-                        <a href="#"
-                            class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
-                            Delete
-                        </a>
+                                            <a href="{{ route('admin.transaction.edit',$item->transaction_id) }}"
+                                                class="inline-block rounded-lg bg-orange-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-orange-700 focus:outline-none focus:ring focus:ring-Orange-300 transition">
+                                                Edit
+                                            </a>
+                                            <form action="{{ route('admin.transaction.destroy', $item->transaction_id) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition"
+                                                        onclick="return confirm('Are you sure want to delete this transaction?')">Delete</button>
+                                            </form>
+                                            {{-- <a href="#"
+                                                class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
+                                                Delete
+                                            </a> --}}
                                         </div>
                                     </th>
+                                </tr>
+                                @endforeach
+                                
                                 </tr>
                             </tbody>
                         </table>

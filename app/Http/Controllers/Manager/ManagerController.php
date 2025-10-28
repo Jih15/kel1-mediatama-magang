@@ -1,23 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Role\Admin;
+namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
-use App\Models\Categories;
-use App\Models\Transactions;
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class TransactionController extends Controller
+class ManagerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $transaction = Transactions::with(['user', 'category'])->get();
-        // dd($transaction);
-        return view('role.admin.transaction.index',['transaction'=>$transaction]);
+        //
     }
 
     /**
@@ -25,9 +20,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        $users = User::all(); // ambil semua user
-        $categories = Categories::all(); // ambil semua kategori
-        return view('role.admin.transaction.create', compact('categories','users'));
+        //
     }
 
     /**
@@ -51,7 +44,7 @@ class TransactionController extends Controller
      */
     public function edit(string $id)
     {
-        return view('role.admin.transaction.edit');
+        //
     }
 
     /**

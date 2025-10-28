@@ -18,10 +18,9 @@
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Username & User
                                         ID
                                     </span>
-                                    <select name="user" id="Headline"
+                                    <input type="text" id="user_id"
                                         class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
-                                        <option value="">Please select user</option>
-                                    </select>
+                                </label>
                                 </label>
                                 <label for="Email">
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Email </span>
@@ -36,6 +35,9 @@
                                     <select name="category" id="Headline"
                                         class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
                                         <option value="">Please select category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->category_id }}">{{ $category->name }}</option>
+                                        @endforeach
                                     </select>
                                 </label>
                                 <label for="amount" class="block">

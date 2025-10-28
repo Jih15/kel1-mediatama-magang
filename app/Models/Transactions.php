@@ -17,6 +17,7 @@ class Transactions extends Model
         'user_id',
         'type',
         'category_id',
+        'category',
         'amount',
         'transaction_date',
         'description',
@@ -25,7 +26,7 @@ class Transactions extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
     public function category()
