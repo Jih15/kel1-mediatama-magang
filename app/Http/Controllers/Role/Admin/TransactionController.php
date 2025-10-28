@@ -36,7 +36,7 @@ class TransactionController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('role.admin.transaction.show');
     }
 
     /**
