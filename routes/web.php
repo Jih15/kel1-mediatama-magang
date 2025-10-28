@@ -41,6 +41,4 @@ Route::prefix('manager')->name('manager')->group(function () {
     Route::get('generate-report')->name('generate.report');
 });
 
-require __DIR__.'/auth.php';
-
-
+require __DIR__ . '/auth.php';
