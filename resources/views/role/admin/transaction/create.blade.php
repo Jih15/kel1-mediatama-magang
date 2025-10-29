@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Add Transaction') }}
+            {{ ('Add Transaction') }}
         </h2>
     </x-slot>
 
@@ -21,7 +21,6 @@
                                         d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
                                         clip-rule="evenodd"></path>
                                 </svg>
-
                                 <strong class="font-medium"> Something went wrong </strong>
                             </div>
 
@@ -38,13 +37,12 @@
                                 <label for="User">
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Username
                                     </span>
-                                    <input type="text" id="user_id"
-                                        class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
-                                </label>
+                                    <input type="text" id="name" name="name" value="{{ old('name') }}"
+                                        class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white" required>
                                 </label>
                                 <label for="Email">
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Email </span>
-                                    <input type="email" id="Email"
+                                    <input type="email" id="email" name="email" value="{{ old('email') }}"
                                         class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
                                 </label>
                             </div>
@@ -52,18 +50,18 @@
                                 <label for="User">
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Category
                                     </span>
-                                    <select name="category" id="Headline"
+                                    <select name="category_id" id="category_id"
                                         class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
                                         <option value="">Please select category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->category_id }}">{{ $category->name }}</option>
+                                            <option value="{{ $category->category_id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                 </label>
                                 <label for="amount" class="block">
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Amount</span>
 
-                                    <div class="relative mt-1">
+                                    <div class="relative mt-1" >
                                         <!-- Prefix teks (IDR) -->
                                         <span
                                             class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 dark:text-gray-400 text-sm select-none">
@@ -71,7 +69,7 @@
                                         </span>
 
                                         <!-- Input -->
-                                        <input type="number" id="amount" name="amount" min="0"
+                                        <input type="number" id="amount" name="amount" min="0" value="{{ old('amount') }}"
                                             step="1000" placeholder="Input Amount"
                                             class="block w-full rounded-md border-gray-300 pl-14 pr-3 py-2 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500" />
                                     </div>
@@ -89,7 +87,7 @@
 
                                         <!-- Textarea -->
                                         <textarea id="Description" name="description" rows="4" placeholder="Type description here..."
-                                            class="w-full resize-none border-none px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-0 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500"></textarea>
+                                            class="w-full resize-none border-none px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-0 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500">{{ old('description') }}</textarea>
 
                                         <!-- Footer -->
                                         <div
@@ -138,7 +136,7 @@
                                     Cancel
                                 </a>
                                 <x-primary-button>
-                                    {{ __('Save') }}
+                                    {{ ('Save') }}
                                 </x-primary-button>
                             </div>
                         </form>

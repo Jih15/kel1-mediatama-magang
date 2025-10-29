@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Role\Admin\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('report')->name('report');
     Route::post('generate-report')->name('generate.report');
 });
+
+Route::get('send-mail', [MailController::class, 'index']);
 
 Route::prefix('manager')->name('manager')->group(function () {
     Route::get('report')->name('report');

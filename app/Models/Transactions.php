@@ -19,7 +19,7 @@ class Transactions extends Model
         'category_id',
         'category',
         'amount',
-        'transaction_date',
+        'date',
         'description',
         'receipt_file'
     ];
