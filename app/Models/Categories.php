@@ -22,4 +22,6 @@ class Categories extends Model
     {
         return $this->hasMany(Transactions::class, 'category_id', 'category_id');
     }
+
+    public $timestamps = true;
 }

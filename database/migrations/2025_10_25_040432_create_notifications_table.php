@@ -17,8 +17,7 @@ return new class extends Migration
             // $table->unsignedBigInteger('transaction_id');
             // $table->foreign('transaction_id')->references('transaction_id')->on('transactions')->onDelete("cascade");
             $table->string('sent_to');
-            $table->string('sent_at');
-            $table->timestamps();
+            $table->dateTime('sent_at');
         });
     }
 
