@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Create Transaction') }}
+            {{ ('Create Transaction') }}
         </h2>
     </x-slot>
 
@@ -61,7 +61,7 @@
                                 <label for="Date">
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Date </span>
 
-                                    <input type="date" id="Date"
+                                    <input type="date" name="date" id="Date"
                                         class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
                                 </label>
                                 <!-- Description -->
@@ -133,7 +133,7 @@
                                         </div>
                                     </label>
 
-                                    <input multiple type="file" id="File" name="file[]" class="sr-only">
+                                    <input type="file" id="File" name="receipt_file" class="sr-only">
                                 </div>
                             </div>
                             <div class="flex gap-4 lg:grid-cols-2 lg:gap-8 justify-end mb-3 mt-4">
