@@ -17,7 +17,7 @@ class TransactionController extends Controller
     {
         $transaction = Transactions::with(['user', 'category'])->get();
         // dd($transaction);
-        return view('role.admin.transaction.index',['transaction'=>$transaction]);
+        return view('role.admin.transaction.index', ['transaction' => $transaction]);
     }
 
     /**
@@ -27,7 +27,7 @@ class TransactionController extends Controller
     {
         $users = User::all(); // ambil semua user
         $categories = Categories::all(); // ambil semua kategori
-        return view('role.admin.transaction.create', compact('categories','users'));
+        return view('role.admin.transaction.create', compact('categories', 'users'));
     }
 
     /**
@@ -35,7 +35,42 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /** Yang perlu diterima store
+         1. type =>pakai dropdown => enum ('income','expense') => required|in:income,expense
+         2. category_id =>pakai dropdown =>  required|exists:categories,id
+         3. date => pakai input date => required|date|before_or_equal:today
+         4. description => pakai input textarea => required
+         5. amount => pakai input number => required|numeric|min:1
+         6. receipt_file => pakai input file => nullable|mimes:jpg|max:2048 => simpan di storage/app/public/uploads/bukti-transaksi/
+         7. user_id => pakai Auth:id() => required|exists:users,id
+          
+         */
+
+        /**
+         untuk proses simpan pakai 
+         $simpan= new Transaction;
+         $simpan=> type =$request['type'];
+         $simpan=> category_id = $request['category_id'];
+
+         .....
+         $simpan=> save()
+
+         */
+
+        /**
+         Simpan receipt_file ke storage/app/public/uploads/bukti-transaksi/
+         */
+
+        /**
+          cek apakah amount > 10000000
+          jika true, maka create notification
+          $manager= Users::Select('email')->where('role',manager)->get
+
+          $notifikasi = new Notifications;
+          .....
+          $notifikasi->sent_to = $manager['email'];
+          $notifikasi->save();
+         */
     }
 
     /**
@@ -43,6 +78,9 @@ class TransactionController extends Controller
      */
     public function show(string $id)
     {
+        /**
+         Perhatikan isi dari data transaksi, tampilkan semuanya.
+         */
         return view('role.admin.transaction.show');
     }
 
@@ -51,7 +89,8 @@ class TransactionController extends Controller
      */
     public function edit(string $id)
     {
-        return view('role.admin.transaction.edit');
+        $categories = Categories::all();
+        return view('role.admin.transaction.edit', compact('categories'));
     }
 
     /**
@@ -59,7 +98,42 @@ class TransactionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        /** Yang perlu diterima store
+         1. type =>pakai dropdown => enum ('income','expense') => required|in:income,expense
+         2. category_id =>pakai dropdown =>  required|exists:categories,id
+         3. date => pakai input date => required|date|before_or_equal:today
+         4. description => pakai input textarea => required
+         5. amount => pakai input number => required|numeric|min:1
+         6. receipt_file => pakai input file => nullable|mimes:jpg|max:2048 => simpan di storage/app/public/uploads/bukti-transaksi
+          
+         */
+
+        /**
+         untuk proses simpan pakai 
+         $simpan= Transaction::find($id);
+         $simpan=> type =$request['type'];
+         $simpan=> category_id = $request['category_id'];
+
+         .....
+         $simpan=> save()
+
+         */
+
+        /**
+         Hapus receipt_file lama dari storage/app/public/uploads/bukti-transaksi/
+         Masukkan receipt_file baru storage/app/public/uploads/bukti-transaksi/
+         */
+
+        /**
+          cek apakah amount > 10000000
+          jika true, maka create notification
+          $manager= Users::Select('email')->where('role',manager)->get
+
+          $notifikasi = new Notifications;
+          .....
+          $notifikasi->sent_to = $manager['email'];
+          $notifikasi->save();
+         */
     }
 
     /**
