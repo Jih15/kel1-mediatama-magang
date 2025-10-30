@@ -78,10 +78,10 @@
                             <thead class="text-left">
                                 <tr class="*:font-medium *:text-gray-900 dark:*:text-white">
                                     <th class="px-3 py-2 w-10">No</th>
-                                    <th class="px-3 py-2">Username</th>
+                                    <th class="px-3 py-2">Type</th>
                                     <th class="px-3 py-2">Category</th>
-                                    <th class="px-3 py-2">Amount</th>
                                     <th class="px-3 py-2">Date</th>
+                                    <th class="px-3 py-2">Amount</th>
                                     <th class="px-3 py-2">Action</th>
                                 </tr>
                             </thead>

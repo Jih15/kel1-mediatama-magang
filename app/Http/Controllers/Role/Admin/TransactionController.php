@@ -89,7 +89,8 @@ class TransactionController extends Controller
      */
     public function edit(string $id)
     {
-        return view('role.admin.transaction.edit');
+        $categories = Categories::all();
+        return view('role.admin.transaction.edit', compact('categories'));
     }
 
     /**

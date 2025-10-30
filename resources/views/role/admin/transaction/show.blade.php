@@ -15,12 +15,6 @@
                             <dl
                                 class="-my-3 divide-y divide-gray-200 rounded border border-gray-200 text-sm *:even:bg-gray-50 dark:divide-gray-700 dark:border-gray-800 dark:*:even:bg-gray-800">
                                 <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
-                                    <dt class="font-medium text-gray-900 dark:text-white">Username</dt>
-
-                                    <dd class="text-gray-700 sm:col-span-2 dark:text-gray-200">Fajar</dd>
-                                </div>
-
-                                <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
                                     <dt class="font-medium text-gray-900 dark:text-white">Type</dt>
 
                                     <dd class="text-gray-700 sm:col-span-2 dark:text-gray-200">Income</dd>
@@ -29,13 +23,7 @@
                                 <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
                                     <dt class="font-medium text-gray-900 dark:text-white">Category</dt>
 
-                                    <dd class="text-gray-700 sm:col-span-2 dark:text-gray-200">xxx</dd>
-                                </div>
-
-                                <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
-                                    <dt class="font-medium text-gray-900 dark:text-white">Amout</dt>
-
-                                    <dd class="text-gray-700 sm:col-span-2 dark:text-gray-200">$1,000,000+</dd>
+                                    <dd class="text-gray-700 sm:col-span-2 dark:text-gray-200">xxxx</dd>
                                 </div>
 
                                 <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
@@ -56,6 +44,12 @@
                                         aspernatur neque molestiae labore aliquam soluta architecto?
                                     </dd>
                                 </div>
+                                <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
+                                    <dt class="font-medium text-gray-900 dark:text-white">Amout</dt>
+
+                                    <dd class="text-gray-700 sm:col-span-2 dark:text-gray-200">$1,000,000+</dd>
+                                </div>
+
                                 <div class="grid grid-cols-1 gap-1 p-3 sm:grid-cols-3 sm:gap-4">
                                     <dt class="font-medium text-gray-900 dark:text-white">Receipt File</dt>
 

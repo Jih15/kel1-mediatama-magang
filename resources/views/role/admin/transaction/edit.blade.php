@@ -31,49 +31,39 @@
                             </div>
                         @endif
                         {{-- End Error Alert --}}
-                        <form action="#" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('admin.transaction.store') }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
                             <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 mb-3">
-                                <label for="User">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Username
+                                <label for="Type">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Type
                                     </span>
-                                    <input type="email" id="Email"
-                                        class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
-                                </label>
-                                <label for="Email">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Email </span>
-                                    <input type="email" id="Email"
-                                        class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
-                                </label>
-                            </div>
-                            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 mb-3">
-                                <label for="User">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Category
-                                    </span>
-                                    <select name="category" id="Headline"
+                                    <select name="type" id="type"
                                         class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
                                         <option value="">Please select category</option>
+                                        <option value="income">Income</option>
+                                        <option value="expense">Expense</option>
                                     </select>
                                 </label>
-                                <label for="amount" class="block">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Amount</span>
-
-                                    <div class="relative mt-1">
-                                        <!-- Prefix teks (IDR) -->
-                                        <span
-                                            class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 dark:text-gray-400 text-sm select-none">
-                                            IDR
-                                        </span>
-
-                                        <!-- Input -->
-                                        <input type="number" id="amount" name="amount" min="0"
-                                            step="1000" placeholder="Input Amount"
-                                            class="block w-full rounded-md border-gray-300 pl-14 pr-3 py-2 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500" />
-                                    </div>
+                                <label for="Category">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Category
+                                    </span>
+                                    <select name="category" id="category"
+                                        class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
+                                        <option value="">Please select category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->category_id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </label>
                             </div>
                             <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 mb-3">
+                                <label for="Date">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Date </span>
+
+                                    <input type="date" id="Date"
+                                        class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
+                                </label>
                                 <!-- Description -->
                                 <label for="Description" class="block">
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-200">
@@ -96,6 +86,24 @@
                                                 Clear
                                             </button>
                                         </div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 mb-3">
+                                <label for="amount" class="block">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Amount</span>
+    
+                                    <div class="relative mt-1">
+                                        <!-- Prefix teks (IDR) -->
+                                        <span
+                                            class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 dark:text-gray-400 text-sm select-none">
+                                            IDR
+                                        </span>
+    
+                                        <!-- Input -->
+                                        <input type="number" id="amount" name="amount" min="0"
+                                            step="1000" placeholder="Input Amount"
+                                            class="block w-full rounded-md border-gray-300 pl-14 pr-3 py-2 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500" />
                                     </div>
                                 </label>
 
