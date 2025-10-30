@@ -100,7 +100,7 @@ class TransactionController extends Controller
     {
         /** Yang perlu diterima store
          1. type =>pakai dropdown => enum ('income','expense') => required|in:income,expense
-         2. category_id =>pakai dropdown =>  required|exists:categories,id
+         2. category_id =>pakai dropdown =>  required|exists:categories,category_id
          3. date => pakai input date => required|date|before_or_equal:today
          4. description => pakai input textarea => required
          5. amount => pakai input number => required|numeric|min:1
