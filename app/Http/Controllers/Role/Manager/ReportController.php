@@ -37,4 +37,9 @@ class ReportController extends Controller
 
         return view('role.manager.report.index', compact('data', 'categories', 'users'));
     }
+
+    public function test()
+    {
+        return view('role.manager.report.index');
+    }
 }

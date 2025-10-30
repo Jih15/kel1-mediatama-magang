@@ -33,6 +33,11 @@ class ReportController extends Controller
 
         $data = $query->orderBy('DESC')->get();
 
-        return view('role.manager.report.index', compact('data', 'categories'));
+        return view('role.admin.report.index', compact('data', 'categories', 'request'));
+    }
+
+    public function test()
+    {
+        return view('role.admin.report.index');
     }
 }
