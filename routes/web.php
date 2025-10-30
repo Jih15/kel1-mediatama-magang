@@ -35,15 +35,23 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('transaction', TransactionController::class);
-    Route::get('report', [ReportController::class, 'test'])->name('report');
+    Route::get('report', [ReportController::class, 'index'])->name('report');
     Route::post('generate-report')->name('generate.report');
-});
+})->middleware(['auth']);
 
 Route::get('send-mail', [MailController::class, 'index']);
 
 Route::prefix('manager')->name('manager.')->group(function () {
-    Route::get('report', [ManagerReportController::class, 'test'])->name('report');
+    Route::get('report', [ManagerReportController::class, 'index'])->name('report');
     Route::get('generate-report')->name('generate.report');
-});
+})->middleware(['auth']);
+
+Route::get(
+    'report',
+    function () {
+        // return view('role.manager.report.report_doc');
+        return view('role.admin.report.report_doc');
+    }
+);
 
 require __DIR__ . '/auth.php';
