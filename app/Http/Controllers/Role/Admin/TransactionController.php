@@ -9,6 +9,7 @@ use App\Models\Categories;
 use App\Models\Notifications;
 use App\Models\Transactions;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
@@ -186,11 +187,19 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
         $transaction = Transactions::findOrFail($id);
+
+        // Hapus file lama jika ada
+        if ($transaction->receipt_file && Storage::disk('public')->exists($transaction->receipt_file)) {
+            Storage::disk('public')->delete($transaction->receipt_file);
+        }
+
+        // Hapus data transaksi di DB
         $transaction->delete();
 
         return redirect()->route('admin.transaction.index')
-                        ->with('success', 'Transaction deleted successfully');
+            ->with('success', 'Transaction deleted successfully');
     }
+
+
 }
