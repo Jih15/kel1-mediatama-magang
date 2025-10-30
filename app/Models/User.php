@@ -17,7 +17,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $primaryKey ='user_id';
+    protected $primaryKey = 'user_id';
 
 
     protected $fillable = [
@@ -51,4 +51,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transactions::class, 'user_id', 'id');
     }
+
+    public $timestamps = true;
 }

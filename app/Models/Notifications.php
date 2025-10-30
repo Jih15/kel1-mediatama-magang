@@ -20,6 +20,8 @@ class Notifications extends Model
         'sent_at',
     ];
 
+    public $timestamps = false;
+
     public function transaction()
     {
         return $this->belongsTo(Transactions::class, 'transaction_id', 'transaction_id');

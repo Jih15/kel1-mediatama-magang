@@ -15,14 +15,15 @@ class Transactions extends Model
 
     protected $fillable = [
         'user_id',
-        'type',
         'category_id',
-        'category',
+        'type',
         'amount',
         'date',
         'description',
         'receipt_file'
     ];
+
+    public $timestamps = true;
 
     public function user()
     {
