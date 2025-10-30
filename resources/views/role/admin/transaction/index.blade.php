@@ -98,8 +98,11 @@
                                             <div class="flex gap-3">
                                                 
                                                 <a href="{{ route('admin.transaction.edit',$item->transaction_id) }}"
-                                                    class="inline-block rounded-lg bg-orange-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300 transition">
-                                                    Edit
+                                                    class="text-orange-600 hover:text-orange-800 transition" title="Edit">
+                                                    <!-- Pencil Icon -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 11l6.536-6.536a2 2 0 112.828 2.828L11.828 13.828a2 2 0 01-1.414.586H8v-2.414a2 2 0 01.586-1.414z" />
+                                                    </svg>
                                                 </a>
                                                 <button type="button"
                                                     @click="openModal = true; deleteId = '{{ $item->transaction_id }}'"
