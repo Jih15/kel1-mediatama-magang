@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Add Transaction') }}
+            {{ ('Add Transaction') }}
         </h2>
     </x-slot>
 
@@ -38,7 +38,12 @@
                                 <label for="Type">
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Type
                                     </span>
-                                    <select name="type" id="type"
+                                    <input type="text" id="name" name="name" value="{{ old('name') }}"
+                                        class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white" required>
+                                </label>
+                                <label for="Email">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Email </span>
+                                    <input type="email" id="email" name="email" value="{{ old('email') }}"
                                         class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
                                         <option value="">Please select category</option>
                                         <option value="income">Income</option>
@@ -48,13 +53,29 @@
                                 <label for="Category">
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Category
                                     </span>
-                                    <select name="category" id="category"
+                                    <select name="category_id" id="category_id"
                                         class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
                                         <option value="">Please select category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->category_id }}">{{ $category->name }}</option>
+                                            <option value="{{ $category->category_id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                         @endforeach
                                     </select>
+                                </label>
+                                <label for="amount" class="block">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Amount</span>
+
+                                    <div class="relative mt-1" >
+                                        <!-- Prefix teks (IDR) -->
+                                        <span
+                                            class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500 dark:text-gray-400 text-sm select-none">
+                                            IDR
+                                        </span>
+
+                                        <!-- Input -->
+                                        <input type="number" id="amount" name="amount" min="0" value="{{ old('amount') }}"
+                                            step="1000" placeholder="Input Amount"
+                                            class="block w-full rounded-md border-gray-300 pl-14 pr-3 py-2 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500" />
+                                    </div>
                                 </label>
                             </div>
                             <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 mb-3">
@@ -75,7 +96,7 @@
 
                                         <!-- Textarea -->
                                         <textarea id="Description" name="description" rows="4" placeholder="Type description here..."
-                                            class="w-full resize-none border-none px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-0 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500"></textarea>
+                                            class="w-full resize-none border-none px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-0 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500">{{ old('description') }}</textarea>
 
                                         <!-- Footer -->
                                         <div
@@ -142,7 +163,7 @@
                                     Cancel
                                 </a>
                                 <x-primary-button>
-                                    {{ __('Save') }}
+                                    {{ ('Save') }}
                                 </x-primary-button>
                             </div>
                         </form>

@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id('transaction_id');
             $table->foreignId('user_id')->constrained('users', 'user_id')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories', 'category_id')->onDelete('cascade');
-            $table->enum('type', ['income', 'expense']);
-            $table->decimal('amount', 15, 2);
-            $table->date('date');
-            $table->text('description');
-            $table->string('receipt_file');
+            $table->enum('type', ['income','expense']);
+            $table->integer('amount');
+            $table->datetime('date');
+            $table->string('description');
+            $table->string('receipt_file')->nullable();
             $table->timestamps();
         });
     }
