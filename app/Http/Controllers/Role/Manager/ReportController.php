@@ -17,29 +17,33 @@ class ReportController extends Controller
         $categories = Categories::all();
         $query = Transactions::with('category');
 
-        // Filter berdasarkan tipe
+        if ($request->filled('user_id')) {
+            $query->where('user_id', $request->user_id);
+        }
+
         if ($request->filled('type')) {
             $query->where('type', $request->type);
         }
 
-        // Filter berdasarkan kategori
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
 
-        // Filter berdasarkan bulan dan tahun
         if ($request->filled('month') && $request->filled('year')) {
             $query->whereMonth('date', $request->month)
                 ->whereYear('date', $request->year);
         }
 
-        $data = $query->orderBy('DESC')->get();
+        $data = $query->orderBy('date', 'DESC')->get();
 
         return view('role.manager.report.index', compact('data', 'categories', 'users'));
     }
 
-    public function test()
+
+    public function generateReport(ReportRequest $request)
     {
-        return view('role.manager.report.index');
+
+        //disini buat dompdfnya
+        //panggil template role.manager.report.report_doc
     }
 }

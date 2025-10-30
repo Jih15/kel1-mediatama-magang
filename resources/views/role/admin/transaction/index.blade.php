@@ -102,7 +102,7 @@
                                                     Detail
                                                 </a>
                                                 <a href="{{ route('admin.transaction.edit',$item->transaction_id) }}"
-                                                    class="inline-block rounded-lg bg-orange-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-orange-700 focus:outline-none focus:ring focus:ring-Orange-300 transition">
+                                                    class="inline-block rounded-lg bg-orange-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300 transition">
                                                     Edit
                                                 </a>
                                                 <button type="button"
