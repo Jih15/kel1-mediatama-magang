@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categories;
 use Illuminate\Http\Request;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -27,19 +28,10 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-        ]);
-
-        Categories::create($validatedData);
-
-        return response()->json([
-            'message' => 'Category created successfully',
-            'data' => $validatedData
-        ], 201);
+        $category = Categories::create($request->validated());
+        return response()->json($category, 201);
     }
 
     /**
@@ -61,9 +53,11 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryRequest $request, string $id)
     {
-        //
+        $category = Categories::findOrFail($id);
+        $category->update($request->validated());
+        return response()->json($category);
     }
 
     /**
