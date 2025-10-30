@@ -36,7 +36,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         // Validasi input
         $validated = $request->validate([
             'name'          => 'required|string',
@@ -68,7 +68,7 @@ class TransactionController extends Controller
                 $filePaths[] = $file->store('uploads/receipts', 'public');
             }
         }
-        $user=Auth::user();
+        $user = Auth::user();
         // Simpan transaksi
         $transaction = Transactions::create([
             'user_id'       => $user->user_id,
@@ -80,8 +80,8 @@ class TransactionController extends Controller
             'receipt_file'  => implode(',', $filePaths),
         ]);
 
-        
-        
+
+
 
         // Redirect ke halaman index dengan pesan sukses
         return redirect()
