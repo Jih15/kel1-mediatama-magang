@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Edit Transaction') }}
+            {{ ('Edit Transaction') }}
         </h2>
     </x-slot>
 
@@ -31,7 +31,7 @@
                             </div>
                         @endif
                         {{-- End Error Alert --}}
-                        <form action="{{ route('admin.transaction.store') }}" method="post"
+                        <form action="{{ route('admin.transaction.update', $transaction->transaction_id) }}" method="post"
                             enctype="multipart/form-data">
                             @csrf
                             <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 mb-3">
@@ -40,9 +40,8 @@
                                     </span>
                                     <select name="type" id="type"
                                         class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
-                                        <option value="">Please select category</option>
-                                        <option value="income">Income</option>
-                                        <option value="expense">Expense</option>
+                                        <option value="income" {{ $transaction->type == 'income' ? 'selected' : '' }}>Income</option>
+                                        <option value="expense" {{ $transaction->type == 'expense' ? 'selected' : '' }}>Expense</option>
                                     </select>
                                 </label>
                                 <label for="Category">
@@ -50,9 +49,11 @@
                                     </span>
                                     <select name="category" id="category"
                                         class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
-                                        <option value="">Please select category</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->category_id }}">{{ $category->name }}</option>
+                                        @foreach ($category as $item )
+                                        <option value="{{ $item->item }}" >
+                                            {{ $transaction->category_id == $item->category_id ? 'selected' : '' }}>
+                                            {{ $item->name }}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </label>
@@ -61,7 +62,8 @@
                                 <label for="Date">
                                     <span class="text-sm font-medium text-gray-700 dark:text-gray-200"> Date </span>
 
-                                    <input type="date" id="Date"
+                                    <input type="date" id="Date" name="date"
+                                        value="{{ $transaction->date }}"
                                         class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
                                 </label>
                                 <!-- Description -->
@@ -75,7 +77,7 @@
 
                                         <!-- Textarea -->
                                         <textarea id="Description" name="description" rows="4" placeholder="Type description here..."
-                                            class="w-full resize-none border-none px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-0 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500"></textarea>
+                                            class="w-full resize-none border-none px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:ring-0 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500">{{ $transaction->description }}</textarea>
 
                                         <!-- Footer -->
                                         <div
@@ -102,7 +104,7 @@
     
                                         <!-- Input -->
                                         <input type="number" id="amount" name="amount" min="0"
-                                            step="1000" placeholder="Input Amount"
+                                            step="1000" placeholder="Input Amount" value="{{ $transaction->amount }}"
                                             class="block w-full rounded-md border-gray-300 pl-14 pr-3 py-2 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:placeholder-gray-500" />
                                     </div>
                                 </label>
@@ -132,8 +134,16 @@
                                             </span>
                                         </div>
                                     </label>
+                                    @if($transaction->receipt_file)
+                                        <div class="mb-2">
+                                            <p class="text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Current Receipt:</p>
+                                            <img src="{{ asset('storage/' . $transaction->receipt_file) }}" 
+                                                alt="Receipt" class="w-32 h-auto rounded border mb-2">
+                                        </div>
+                                    @endif
 
-                                    <input multiple type="file" id="File" name="file[]" class="sr-only">
+                                    <input type="file" id="File" name="receipt_file" class="sr-only">
+
                                 </div>
                             </div>
                             <div class="flex gap-4 lg:grid-cols-2 lg:gap-8 justify-end mb-3 mt-4">

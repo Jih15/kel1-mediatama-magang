@@ -78,11 +78,11 @@
                                 <thead class="text-left">
                                     <tr class="*:font-medium *:text-gray-900 dark:*:text-white">
                                         <th class="px-3 py-2 w-10">No</th>
-                                        <th class="px-3 py-2">Username</th>
+                                        <th class="px-3 py-2">Type</th>
                                         <th class="px-3 py-2">Category</th>
-                                        <th class="px-3 py-2">Amount</th>
                                         <th class="px-3 py-2">Date</th>
-                                        <th class="px-3 py-2">Created By</th>
+                                        <th class="px-3 py-2">Amount</th>
+                                        {{-- <th class="px-3 py-2">Created By</th> --}}
                                         <th class="px-3 py-2">Action</th>
                                     </tr>
                                 </thead>
@@ -91,14 +91,16 @@
                                     @foreach ( $transaction as $index => $item )
                                     <tr class="*:text-gray-900 *:first:font-medium">
                                         <td class="px-3 py-2 whitespace-nowrap">{{ $index + 1 }}</td>
-                                        <td class="px-3 py-2 whitespace-nowrap">lala</td>
+                                        <td class="px-3 py-2 whitespace-nowrap">{{ $item->type }}</td>
                                         <td class="px-3 py-2 whitespace-nowrap">{{ $item->category->name ?? '-'}}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap">{{ \Carbon\Carbon::parse($item->date)->format('d M Y') }}</td>
                                         <td class="px-3 py-2 whitespace-nowrap">{{ number_format($item->amount, 0, ',', '.') }}</td>
-                                        <td class="px-3 py-2 whitespace-nowrap">{{ \Carbon\Carbon::parse($item->transaction_date)->format('d M Y') }}</td>
-                                        <td class="px-3 py-2 whitespace-nowrap">{{ $item->user->name ?? '-' }}</td>
-                                        {{-- <a href="{{ route('admin.transaction.edit', $item->transaction_id) }}" class="text-indigo-500 hover:underline">Edit</a> --}}
                                         <th class="px-3 py-2">
                                             <div class="flex gap-3">
+                                                <a href="{{ route('admin.transaction.show',$item->transaction_id) }}"
+                                                    class="inline-block rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 transition">
+                                                    Detail
+                                                </a>
                                                 <a href="{{ route('admin.transaction.edit',$item->transaction_id) }}"
                                                     class="inline-block rounded-lg bg-orange-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-orange-700 focus:outline-none focus:ring focus:ring-Orange-300 transition">
                                                     Edit
