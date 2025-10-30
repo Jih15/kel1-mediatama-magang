@@ -18,6 +18,7 @@ return new class extends Migration
             // $table->foreign('transaction_id')->references('transaction_id')->on('transactions')->onDelete("cascade");
             $table->string('sent_to');
             $table->dateTime('sent_at');
+            $table->text('message')->nullable();
         });
     }
 
@@ -26,6 +27,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('notifications', function(Blueprint $table){
+            $table->dropColumn('message');
+        });
     }
 };

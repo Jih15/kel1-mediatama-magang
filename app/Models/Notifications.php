@@ -18,6 +18,7 @@ class Notifications extends Model
         'transaction_id',
         'sent_to',
         'sent_at',
+        // 'message'
     ];
 
     public $timestamps = false;
