@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12" x-data="{ openModal: false }">
+   <div class="py-12" x-data="{ openModal: false, deleteId: null }">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -82,6 +82,7 @@
                                         <th class="px-3 py-2">Category</th>
                                         <th class="px-3 py-2">Date</th>
                                         <th class="px-3 py-2">Amount</th>
+                                        {{-- <th class="px-3 py-2">Created By</th> --}}
                                         <th class="px-3 py-2">Action</th>
                                     </tr>
                                 </thead>
@@ -90,28 +91,26 @@
                                     @foreach ( $transaction as $index => $item )
                                     <tr class="*:text-gray-900 *:first:font-medium">
                                         <td class="px-3 py-2 whitespace-nowrap">{{ $index + 1 }}</td>
-                                        <td class="px-3 py-2 whitespace-nowrap"></td>
+                                        <td class="px-3 py-2 whitespace-nowrap">{{ $item->type }}</td>
                                         <td class="px-3 py-2 whitespace-nowrap">{{ $item->category->name ?? '-'}}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap">{{ \Carbon\Carbon::parse($item->date)->format('d M Y') }}</td>
                                         <td class="px-3 py-2 whitespace-nowrap">{{ number_format($item->amount, 0, ',', '.') }}</td>
-                                        <td class="px-3 py-2 whitespace-nowrap">{{ \Carbon\Carbon::parse($item->transaction_date)->format('d M Y') }}</td>
-                                        <td class="px-3 py-2 whitespace-nowrap">{{ $item->user->name ?? '-' }}</td>
-                                        {{-- <a href="{{ route('admin.transaction.edit', $item->transaction_id) }}" class="text-indigo-500 hover:underline">Edit</a> --}}
                                         <th class="px-3 py-2">
                                             <div class="flex gap-3">
                                                 <a href="{{ route('admin.transaction.show',$item->transaction_id) }}"
                                                     class="inline-block rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 transition">
                                                     Detail
-                                                </a>
+                                                </a>
                                                 <a href="{{ route('admin.transaction.edit',$item->transaction_id) }}"
                                                     class="inline-block rounded-lg bg-orange-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300 transition">
                                                     Edit
                                                 </a>
-                                                <form action="{{ route('admin.transaction.destroy', $item->transaction_id) }}" method="POST" class="inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition"
-                                                            onclick="return confirm('Are you sure want to delete this transaction?')">Delete</button>
-                                                </form>
+                                                <button type="button"
+                                                    @click="openModal = true; deleteId = '{{ $item->transaction_id }}'"
+                                                    class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
+                                                    Delete
+                                                </button>
+
                                                 {{-- <a href="#"
                                                     class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
                                                     Delete
@@ -119,44 +118,46 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <!-- MODAL KONFIRMASI DELETE -->
+                                    <div x-show="openModal" x-cloak x-transition 
+                                        class="fixed inset-0 z-50 grid place-content-center 
+                                                backdrop-blur-ld 
+                                                p-4" role="dialog" aria-modal="true">
+                                        <div
+                                            class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800 dark:text-gray-100">
+                                            <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">Confirm Delete</h2>
+
+                                            <div class="mt-4">
+                                                <p class="text-gray-700 dark:text-gray-300">
+                                                    Are you sure you want to delete this transaction? This action cannot be undone.
+                                                </p>
+                                            </div>
+
+                                            <footer class="mt-6 flex justify-end gap-2">
+                                                <button type="button" @click="openModal = false"
+                                                    class="rounded bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition">
+                                                    Cancel
+                                                </button>
+
+                                                <form :action="`/admin/transaction/${deleteId}`" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="rounded bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </footer>
+                                        </div>
+                                    </div>
+                                    <!-- END MODAL -->
                                     @endforeach
                                     
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <!-- MODAL KONFIRMASI DELETE -->
-                        <div x-show="openModal" x-cloak x-transition
-                            class="fixed inset-0 z-50 grid place-content-center bg-black/50 p-4" role="dialog"
-                            aria-modal="true">
-                            <div
-                                class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800 dark:text-gray-100">
-                                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">Confirm Delete</h2>
-
-                                <div class="mt-4">
-                                    <p class="text-gray-700 dark:text-gray-300">
-                                        Are you sure you want to delete this transaction? This action cannot be undone.
-                                    </p>
-                                </div>
-
-                                <footer class="mt-6 flex justify-end gap-2">
-                                    <button type="button" @click="openModal = false"
-                                        class="rounded bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition">
-                                        Cancel
-                                    </button>
-
-                                    <form action="{{ route('admin.transaction.destroy', 1) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="rounded bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 transition">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </footer>
-                            </div>
-                        </div>
-                        <!-- END MODAL -->
+                        
                         
                     @else
                         <p class="text-gray-500 dark:text-gray-300">Belum ada data transaksi.</p>   
