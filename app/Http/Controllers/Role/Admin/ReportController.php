@@ -31,13 +31,15 @@ class ReportController extends Controller
                 ->whereYear('date', $request->year);
         }
 
-        $data = $query->orderBy('DESC')->get();
+        $data = $query->orderBy('date', 'DESC')->get();
 
         return view('role.admin.report.index', compact('data', 'categories', 'request'));
     }
 
-    public function test()
+    public function generateReport(ReportRequest $request)
     {
-        return view('role.admin.report.index');
+
+        //disini buat dompdfnya
+        //panggil template role.admin.report.report_doc
     }
 }

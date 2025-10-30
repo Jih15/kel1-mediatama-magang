@@ -11,7 +11,7 @@ class ReportRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class ReportRequest extends FormRequest
         return [
             'type' => 'in:income,expense',
             'category_id' => 'exists:categories,category_id',
-            'userid' => 'exists:users,user_id',
+            'user_id' => 'exists:users,user_id',
             'month' => 'integer|between:1,12',
             'year' => 'integer|min:1900|max:2100',
         ];
