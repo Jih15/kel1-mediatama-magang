@@ -19,57 +19,52 @@ class TransactionController extends Controller
     public function index()
     {
         $transaction = Transactions::with(['user', 'category'])->get();
-        // dd($transaction);
         return view('role.admin.transaction.index', ['transaction' => $transaction]);
     }
 
     public function create()
     {
-        $users = User::all(); // ambil semua user
-        $categories = Categories::all(); // ambil semua kategori
+        $users = User::all();
+        $categories = Categories::all();
         return view('role.admin.transaction.create', compact('categories', 'users'));
     }
 
- 
+
     public function store(TransactionRequest $request)
     {
         $request->all();
 
         $simpan = new Transactions();
-        $simpan->type = $request->type;                        
-        $simpan->category_id = $request->category_id;          
-        $simpan->date = $request->date;                        
-        $simpan->description = $request->description;          
-        $simpan->amount = $request->amount;                    
-        $simpan->user_id = Auth::id();                         
+        $simpan->type = $request->type;
+        $simpan->category_id = $request->category_id;
+        $simpan->date = $request->date;
+        $simpan->description = $request->description;
+        $simpan->amount = $request->amount;
+        $simpan->user_id = Auth::id();
 
-       
+
         if ($request->hasFile('receipt_file')) {
             $path = $request->file('receipt_file')->store('uploads/bukti-transaksi', 'public');
             $simpan->receipt_file = $path;
         }
 
-        $simpan->save(); // Simpan transaksi ke database
+        $simpan->save();
 
         if ($simpan->amount > 10000000) {
-        $manager = User::where('role', 'manager')->select('email')->first();
+            $manager = User::where('role', 'manager')->select('email')->first();
         // dd($manager);
-        
+
             $notifikasi = new Notifications();
             $notifikasi->transaction_id = $simpan->transaction_id;
             $notifikasi->sent_to = $manager['email'];
             $notifikasi->sent_at = now();
-            // $notifikasi->message = "Transaksi besar tercatat: Rp " . number_format($simpan->amount);
             $notifikasi->save();
 
-            // Kirim email
             app(\App\Http\Controllers\MailController::class)
                 ->index($manager['email'],"Transaksi besar tercatat: Rp " . number_format($simpan->amount) );
+
+        }
         
-    }
-
-
-             
         return redirect()
             ->route('admin.transaction.index')
             ->with('success', 'Transaksi berhasil disimpan!');
@@ -151,11 +146,11 @@ class TransactionController extends Controller
          4. description => pakai input textarea => required
          5. amount => pakai input number => required|numeric|min:1
          6. receipt_file => pakai input file => nullable|mimes:jpg|max:2048 => simpan di storage/app/public/uploads/bukti-transaksi
-          
+
          */
 
         /**
-         untuk proses simpan pakai 
+         untuk proses simpan pakai
          $simpan= Transaction::find($id);
          $simpan=> type =$request['type'];
          $simpan=> category_id = $request['category_id'];
