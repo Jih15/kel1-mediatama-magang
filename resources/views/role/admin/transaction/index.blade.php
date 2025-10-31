@@ -72,7 +72,7 @@
                         </div>
                     @endif
                     {{-- End Error Alert --}}
-                    @if ($transaction->count()>0)                       
+                    @if ($transaction->count()>0)
                         <div class="overflow-x-auto rounded border border-gray-300 shadow-sm dark:border-gray-600">
                             <table class="w-full min-w-max divide-y-2 divide-gray-200 dark:divide-gray-700">
                                 <thead class="text-left">
@@ -87,15 +87,15 @@
                                     </tr>
                                 </thead>
 
-                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700 ">
                                     @foreach ( $transaction as $index => $item )
-                                    <tr class="*:text-gray-900 *:first:font-medium">
-                                        <td class="px-3 py-2 whitespace-nowrap">{{ $index + 1 }}</td>
-                                        <td class="px-3 py-2 whitespace-nowrap">lala</td>
-                                        <td class="px-3 py-2 whitespace-nowrap">{{ $item->category->name ?? '-'}}</td>
-                                        <td class="px-3 py-2 whitespace-nowrap">{{ number_format($item->amount, 0, ',', '.') }}</td>
-                                        <td class="px-3 py-2 whitespace-nowrap">{{ \Carbon\Carbon::parse($item->transaction_date)->format('d M Y') }}</td>
-                                        <td class="px-3 py-2 whitespace-nowrap">{{ $item->user->name ?? '-' }}</td>
+                                    <tr class="*:text-gray-900 *:first:font-medium ">
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ $index + 1 }}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">lala</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ $item->category->name ?? '-'}}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ number_format($item->amount, 0, ',', '.') }}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ \Carbon\Carbon::parse($item->transaction_date)->format('d M Y') }}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ $item->user->name ?? '-' }}</td>
                                         {{-- <a href="{{ route('admin.transaction.edit', $item->transaction_id) }}" class="text-indigo-500 hover:underline">Edit</a> --}}
                                         <th class="px-3 py-2">
                                             <div class="flex gap-3">
@@ -117,7 +117,7 @@
                                         </td>
                                     </tr>
                                     @endforeach
-                                    
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -154,9 +154,9 @@
                             </div>
                         </div>
                         <!-- END MODAL -->
-                        
+
                     @else
-                        <p class="text-gray-500 dark:text-gray-300">Belum ada data transaksi.</p>   
+                        <p class="text-gray-500 dark:text-gray-300">Belum ada data transaksi.</p>
                     @endif
                 </div>
             </div>
