@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class CategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check() && Auth::user()->role === 'admin';
     }
 
     /**
@@ -24,13 +25,13 @@ class CategoryRequest extends FormRequest
         if ($this->isMethod('put') || $this->isMethod('patch')) {
             return [
                 'name' => 'sometimes|required|string|max:255',
-                'type' => 'sometimes|required|in:income,expense',
+                // 'type' => 'sometimes|required|in:income,expense',
             ];
         }
 
         return [
             'name' => 'required|string|max:255',
-            'type' => 'required|in:income,expense',
+            // 'type' => 'required|in:income,expense',
         ];
     }
 }

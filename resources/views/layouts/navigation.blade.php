@@ -11,10 +11,15 @@
                 </div>
                 <!-- Navigation Links -->
 
-                @if (Auth::user()->role == 'Admin')
+                @if (Auth::user()->role == 'admin')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                             {{ __('Dashboard') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('admin.category.index')" :active="request()->routeIs('admin.category.index')">
+                            {{ __('Category') }}
                         </x-nav-link>
                     </div>
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -27,7 +32,7 @@
                             {{ __('Report') }}
                         </x-nav-link>
                     </div>
-                @elseif (Auth::user()->role == 'Manager')
+                @elseif (Auth::user()->role == 'manager')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('manager.dashboard')" :active="request()->routeIs('manager.dashboard')">
                             {{ __('Dashboard') }}
