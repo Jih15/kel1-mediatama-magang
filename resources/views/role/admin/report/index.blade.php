@@ -22,7 +22,7 @@
                             <input type="hidden" name="year"
                                 value="{{ isset($request['year']) ? $request['year'] : '' }}">
                             <button type="submit"
-                                class="inline-block rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-300 transition">
+                                class="inline-block rounded-lg bg-teal-800 px-5 py-2 text-sm font-medium text-white shadow hover:bg-teal-700 focus:outline-none focus:ring focus:ring-indigo-300 transition">
                                 Print Data
                             </button>
                         </form>
@@ -144,7 +144,7 @@
                                         <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">
                                             @if(!empty($item))
                                                 <a href="{{ route('admin.transaction.show', $item->transaction_id) }}"
-                                                    class="inline-block rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 transition">
+                                                    class="inline-block rounded-lg bg-teal-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-teal-700 focus:outline-none focus:ring focus:ring-green-300 transition">
                                                     Detail
                                                 </a>
                                             @endif

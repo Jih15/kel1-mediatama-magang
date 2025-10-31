@@ -12,7 +12,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-semibold dark:text-gray-100 text-gray-900">Transaction Data</h3>
                         <a href="{{ route('admin.transaction.create') }}"
-                            class="inline-block rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-300 transition">
+                            class="inline-block rounded-lg bg-teal-700 px-5 py-2 text-sm font-medium text-white shadow hover:bg-teal-900 focus:outline-none focus:ring focus:ring-indigo-300 transition">
                             Add Transaction
                         </a>
                     </div>
@@ -75,12 +75,13 @@
                         <div class="overflow-x-auto rounded border border-gray-300 shadow-sm dark:border-gray-600">
                             <table class="w-full min-w-max divide-y-2 divide-gray-200 dark:divide-gray-700">
                                 <thead class="text-left">
-                                    <tr class="*:font-medium *:text-gray-900 dark:*:text-white">
+                                    <tr class="*:font-medium *:text-gray-900 dark:*:text-white *:font-bold">
                                         <th class="px-3 py-2 w-10">No</th>
                                         <th class="px-3 py-2">Type</th>
                                         <th class="px-3 py-2">Category</th>
-                                        <th class="px-3 py-2">Date</th>
                                         <th class="px-3 py-2">Amount</th>
+                                        <th class="px-3 py-2">Date</th>
+                                        <th class="px-3 py-2">Created By</th>
                                         {{-- <th class="px-3 py-2">Created By</th> --}}
                                         <th class="px-3 py-2">Action</th>
                                     </tr>
@@ -100,9 +101,9 @@
                                             <div class="flex gap-3">
 
                                                 <a href="{{ route('admin.transaction.edit',$item->transaction_id) }}"
-                                                    class="text-orange-600 hover:text-orange-800 transition" title="Edit">
+                                                    class="text-grey-600 hover:text-grey-800 transition" title="Edit">
                                                     <!-- Pencil Icon -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 11l6.536-6.536a2 2 0 112.828 2.828L11.828 13.828a2 2 0 01-1.414.586H8v-2.414a2 2 0 01.586-1.414z" />
                                                     </svg>
                                                 </a>
@@ -115,20 +116,13 @@
                                                     </svg>
                                                 </button>
 
-                                                {{-- <a href="{{ route('admin.transaction.edit',$item->transaction_id) }}" class="inline-block rounded-lg bg-orange-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-orange-700 focus:outline-none focus:ring focus:ring-Orange-300 transition"> Edit </a> <button type="button" @click="openModal = true; deleteId = '{{ $item->transaction_id }}'" class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition"> Delete </button> --}}
-
                                                 <a href="{{ route('admin.transaction.show',$item->transaction_id) }}"
-                                                    class="text-blue-600 hover:text-blue-800 transition pl-5" title="Detail">
+                                                    class="text-teal-600 hover:text-teal-800 transition pl-5" title="Detail">
                                                     <!-- Exclamation Circle Icon -->
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 4h.01M12 4a8 8 0 110 16 8 8 0 010-16z" />
                                                     </svg>
                                                 </a>
-
-                                                {{-- <a href="#"
-                                                    class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
-                                                    Delete
-                                                </a> --}}
                                             </div>
                                         </td>
                                     </tr>
