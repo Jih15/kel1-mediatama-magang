@@ -24,7 +24,7 @@
                             <input type="hidden" name="year"
                                 value="{{ isset($request['year']) ? $request['year'] : '' }}">
                             <button type="submit"
-                                class="inline-block rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-300 transition">
+                                class="inline-block rounded-lg bg-teal-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-teal-700 focus:outline-none focus:ring focus:ring-indigo-300 transition">
                                 Print Data
                             </button>
                         </form>
@@ -32,7 +32,7 @@
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-6 lg:gap-8 mb-5">
                         <div class="bg-transparent">
                             <label for="UserAdmin">
-                                <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Admin Nane</span>
+                                <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Admin Name</span>
                                 <select name="user_id" id="UserAdmin"
                                     class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
                                     <option value="">Please select</option>
@@ -105,40 +105,39 @@
                     </div>
 
                     <div class="overflow-x-auto rounded border border-gray-300 shadow-sm dark:border-gray-600">
-                        <table class="w-full min-w-max divide-y-2 divide-gray-200 dark:divide-gray-700">
+                        <table class="w-full min-w-max divide-y-2 divide-gray-200 dark:divide-gray-700 ">
                             <thead class="text-left">
-                                <tr class="*:font-medium *:text-gray-900 dark:*:text-white">
-                                    <th class="px-3 py-2 w-10">No</th>
-                                    <th class="px-3 py-2">Admin Name</th>
-                                    <th class="px-3 py-2">Type</th>
-                                    <th class="px-3 py-2">Category</th>
-                                    <th class="px-3 py-2">Date</th>
-                                    <th class="px-3 py-2">Action</th>
+                                <tr class="*:font-medium *:text-gray-900 dark:*:text-white px-6 py-4">
+                                    <th class="px-2 py-2">No</th>
+                                    <th class="px-2 py-2">Admin Name</th>
+                                    <th class="px-2 py-2">Type</th>
+                                    <th class="px-2 py-2">Category</th>
+                                    <th class="px-2 py-2">Date</th>
+                                    <th class="px-2 py-2">Action</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                                {{-- @foreach ($transaction as $index => $item) --}}
-                                <tr class="*:text-gray-900 *:first:font-medium">
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <th class="px-3 py-2">
-                                        <div class="flex gap-3">
-                                            <a href=""
-                                                class="inline-block rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 transition">
-                                                Detail
-                                            </a>
-                                        </div>
+                            <tbody class="*:text-gray-900 *:first:font-medium">
+                                @forelse ($data as $index => $item)
+                                    <tr class="*:px-3 *:py-2">
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ $index + 1 }}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ $item->user->name ?? '-' }}</td>
+                                        <td class="capitalize">{{ $item->type }}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ $item->category->name ?? '-' }}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ \Carbon\Carbon::parse($item->date)->format('d M Y') }}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">
+                                            <a href="#"
+                                                class="inline-block rounded-lg bg-teal-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-teal-700 focus:outline-none focus:ring focus:ring-green-300 transition">Detail</a>
                                         </td>
-                                </tr>
-                                {{-- @endforeach --}}
-
-                                </tr>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4 text-gray-500 dark:text-gray-400">No data found</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>

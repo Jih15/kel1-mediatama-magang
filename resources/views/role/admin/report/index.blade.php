@@ -22,7 +22,7 @@
                             <input type="hidden" name="year"
                                 value="{{ isset($request['year']) ? $request['year'] : '' }}">
                             <button type="submit"
-                                class="inline-block rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-300 transition">
+                                class="inline-block rounded-lg bg-teal-800 px-5 py-2 text-sm font-medium text-white shadow hover:bg-teal-700 focus:outline-none focus:ring focus:ring-indigo-300 transition">
                                 Print Data
                             </button>
                         </form>
@@ -135,27 +135,32 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                                {{-- @foreach ($transaction as $index => $item) --}}
-                                <tr class="*:text-gray-900 *:first:font-medium">
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <th class="px-3 py-2">
-                                        <div class="flex gap-3">
-                                            <a href=""
-                                                class="inline-block rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 transition">
-                                                Detail
-                                            </a>
-                                        </div>
+                                @forelse ($data as $index => $item)
+                                    <tr class="*:text-gray-900 *:first:font-medium">
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ $index + 1 }}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ ucfirst($item->type) }}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ $item->category->name ?? '-' }}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ \Carbon\Carbon::parse($item->date)->format('d M Y') }}</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">
+                                            @if(!empty($item))
+                                                <a href="{{ route('admin.transaction.show', $item->transaction_id) }}"
+                                                    class="inline-block rounded-lg bg-teal-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-teal-700 focus:outline-none focus:ring focus:ring-green-300 transition">
+                                                    Detail
+                                                </a>
+                                            @endif
                                         </td>
-                                </tr>
-                                {{-- @endforeach --}}
-
-                                </tr>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4 text-gray-500 dark:text-gray-400">
+                                            Tidak ada data transaksi.
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>

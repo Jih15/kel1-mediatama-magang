@@ -11,7 +11,7 @@ class TransactionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,7 +27,7 @@ class TransactionRequest extends FormRequest
             'date' => 'required|date|before_or_equal:today',
             'description' => 'required',
             'amount' => 'required|numeric|min:1',
-            'receipt_file' => 'required|mimes:jpg|max:2048',
+            'receipt_file' => 'required|mimes:jpg,png,jpeg,pdf|max:2048',
         ];
     }
 }

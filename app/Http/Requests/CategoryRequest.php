@@ -21,6 +21,13 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->isMethod('put') || $this->isMethod('patch')) {
+            return [
+                'name' => 'sometimes|required|string|max:255',
+                'type' => 'sometimes|required|in:income,expense',
+            ];
+        }
+
         return [
             'name' => 'required|string|max:255',
             'type' => 'required|in:income,expense',

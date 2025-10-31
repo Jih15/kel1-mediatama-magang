@@ -3,92 +3,73 @@
 namespace App\Http\Controllers\Role\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\MailController;
+use App\Http\Requests\TransactionRequest;
 use App\Models\Categories;
+use App\Models\Notifications;
 use App\Models\Transactions;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $transaction = Transactions::with(['user', 'category'])->get();
-        // dd($transaction);
         return view('role.admin.transaction.index', ['transaction' => $transaction]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $users = User::all(); // ambil semua user
-        $categories = Categories::all(); // ambil semua kategori
+        $users = User::all();
+        $categories = Categories::all();
         return view('role.admin.transaction.create', compact('categories', 'users'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+    public function store(TransactionRequest $request)
     {
+        $request->all();
 
-        // Validasi input
-        $validated = $request->validate([
-            'name'          => 'required|string',
-            'email'         => 'required|email',
-            'category_id'   => 'required|exists:categories,category_id',
-            'amount'        => 'required|numeric|min:1',
-            'description'   => 'nullable|string',
-            'file.*'        => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240', // 10MB
-        ]);
+        $simpan = new Transactions();
+        $simpan->type = $request->type;
+        $simpan->category_id = $request->category_id;
+        $simpan->date = $request->date;
+        $simpan->description = $request->description;
+        $simpan->amount = $request->amount;
+        $simpan->user_id = Auth::id();
 
-        // Cek atau buat user baru berdasarkan email
-        // $user = User::firstOrCreate(
-        //     ['email' => $validated['email']],
-        //     [
-        //         'name' => $validated['name'],
-        //         'password' => bcrypt('default123'),
-        //         'role' => 'manager',
-        //     ]
-        // );
 
-        // Ambil kategori
-        $category = Categories::find($validated['category_id']);
-        // dd($category);
-
-        // Upload file jika ada
-        $filePaths = [];
-        if ($request->hasFile('file')) {
-            foreach ($request->file('file') as $file) {
-                $filePaths[] = $file->store('uploads/receipts', 'public');
-            }
+        if ($request->hasFile('receipt_file')) {
+            $path = $request->file('receipt_file')->store('uploads/bukti-transaksi', 'public');
+            $simpan->receipt_file = $path;
         }
-        $user = Auth::user();
-        // Simpan transaksi
-        $transaction = Transactions::create([
-            'user_id'       => $user->user_id,
-            'type'          => "income",
-            'category_id'   => $category->category_id,
-            'amount'        => $validated['amount'],
-            'date'          => now(),
-            'description'   => $validated['description'] ?? '',
-            'receipt_file'  => implode(',', $filePaths),
-        ]);
 
+        $simpan->save();
 
+        if ($simpan->amount > 10000000) {
+            $manager = User::where('role', 'manager')->select('email')->first();
+        // dd($manager);
 
+            $notifikasi = new Notifications();
+            $notifikasi->transaction_id = $simpan->transaction_id;
+            $notifikasi->sent_to = $manager['email'];
+            $notifikasi->sent_at = now();
+            $notifikasi->save();
 
-        // Redirect ke halaman index dengan pesan sukses
+            app(\App\Http\Controllers\MailController::class)
+                ->index($manager['email'],"Transaksi besar tercatat: Rp " . number_format($simpan->amount) );
+
+        }
+        
         return redirect()
             ->route('admin.transaction.index')
-            ->with('success', 'Transaction created successfully!');
-    }
+            ->with('success', 'Transaksi berhasil disimpan!');
 
+    }
 
     /**
      * Display the specified resource.
@@ -98,7 +79,9 @@ class TransactionController extends Controller
         /**
          Perhatikan isi dari data transaksi, tampilkan semuanya.
          */
-        return view('role.admin.transaction.show');
+         $transaction = Transactions::with('category', 'user')->findOrFail($id);
+
+        return view('role.admin.transaction.show', compact('transaction'));
     }
 
     /**
@@ -106,15 +89,56 @@ class TransactionController extends Controller
      */
     public function edit(string $id)
     {
-        $categories = Categories::all();
-        return view('role.admin.transaction.edit', compact('categories'));
+        
+        $category = Categories::all();
+        $transaction = Transactions::where('transaction_id', $id)->first();
+
+        return view('role.admin.transaction.edit', compact('category', 'transaction'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(TransactionRequest $request, string $id)
     {
+        $transaksi = Transactions::findOrFail($id);
+
+        $transaksi->type = $request->type;
+        $transaksi->category_id = $request->category_id;
+        $transaksi->date = $request->date;
+        $transaksi->description = $request->description;
+        $transaksi->amount = $request->amount;
+
+        if ($request->hasFile('receipt_file')) {
+
+            if ($transaksi->receipt_file && file_exists(storage_path('app/public/uploads/bukti-transaksi/' . $transaksi->receipt_file))) {
+                unlink(storage_path('app/public/uploads/bukti-transaksi/' . $transaksi->receipt_file));
+            }
+
+            $file = $request->file('receipt_file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/uploads/bukti-transaksi', $fileName);
+
+            $transaksi->receipt_file = $fileName;
+        }
+
+        $transaksi->save();
+        if ($transaksi->amount > 10000000) {
+            $managers = User::select('email')->where('role', 'manager')->get();
+
+            foreach ($managers as $manager) {
+                $notif = new Notifications();
+                $notif->sent_to = $manager->email;
+                $notif->message = "Transaksi besar diperbarui sebesar Rp " . number_format($transaksi->amount);
+                $notif->save();
+            }
+        }
+
+        return redirect()
+            ->route('admin.transaction.index')
+            ->with('success', 'Transaksi berhasil diperbarui!');
+
+
         /** Yang perlu diterima store
          1. type =>pakai dropdown => enum ('income','expense') => required|in:income,expense
          2. category_id =>pakai dropdown =>  required|exists:categories,category_id
@@ -122,11 +146,11 @@ class TransactionController extends Controller
          4. description => pakai input textarea => required
          5. amount => pakai input number => required|numeric|min:1
          6. receipt_file => pakai input file => nullable|mimes:jpg|max:2048 => simpan di storage/app/public/uploads/bukti-transaksi
-          
+
          */
 
         /**
-         untuk proses simpan pakai 
+         untuk proses simpan pakai
          $simpan= Transaction::find($id);
          $simpan=> type =$request['type'];
          $simpan=> category_id = $request['category_id'];
@@ -158,6 +182,19 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $transaction = Transactions::findOrFail($id);
+
+        // Hapus file lama jika ada
+        if ($transaction->receipt_file && Storage::disk('public')->exists($transaction->receipt_file)) {
+            Storage::disk('public')->delete($transaction->receipt_file);
+        }
+
+        // Hapus data transaksi di DB
+        $transaction->delete();
+
+        return redirect()->route('admin.transaction.index')
+            ->with('success', 'Transaction deleted successfully');
     }
+
+
 }
