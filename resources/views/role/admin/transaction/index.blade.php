@@ -106,12 +106,12 @@
                                                     class="inline-block rounded-lg bg-orange-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300 transition">
                                                     Edit
                                                 </a>
-                                                <form action="{{ route('admin.transaction.destroy', $item->transaction_id) }}" method="POST" class="inline">
+                                                {{-- <form action="{{ route('admin.transaction.destroy', $item->transaction_id) }}" method="POST" class="inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition"
                                                             onclick="return confirm('Are you sure want to delete this transaction?')">Delete</button>
-                                                </form>
+                                                </form> --}}
                                                 {{-- <a href="#"
                                                     class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
                                                     Delete
