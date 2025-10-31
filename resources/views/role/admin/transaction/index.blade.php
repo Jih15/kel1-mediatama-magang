@@ -123,6 +123,16 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 4h.01M12 4a8 8 0 110 16 8 8 0 010-16z" />
                                                     </svg>
                                                 </a>
+                                                {{-- <form action="{{ route('admin.transaction.destroy', $item->transaction_id) }}" method="POST" class="inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition"
+                                                            onclick="return confirm('Are you sure want to delete this transaction?')">Delete</button>
+                                                </form> --}}
+                                                {{-- <a href="#"
+                                                    class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
+                                                    Delete
+                                                </a> --}}
                                             </div>
                                         </td>
                                     </tr>

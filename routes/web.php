@@ -3,8 +3,10 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Role\Admin\AdminController;
 use App\Http\Controllers\Role\Admin\ReportController;
 use App\Http\Controllers\Role\Admin\TransactionController;
+use App\Http\Controllers\Role\Manager\ManagerController;
 use App\Http\Controllers\Role\Manager\ReportController as ManagerReportController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,17 +36,19 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::resource('transaction', TransactionController::class);
     Route::get('report', [ReportController::class, 'index'])->name('report');
     Route::post('generate-report')->name('generate.report');
-})->middleware(['auth']);
+})->middleware(['auth', 'role.check:Admin']);
 
-Route::get('send-mail', [MailController::class, 'index']);
+// Route::get('send-mail', [MailController::class, 'index']);
 
 Route::prefix('manager')->name('manager.')->group(function () {
+    Route::get('dashboard', [ManagerController::class, 'index'])->name('dashboard');
     Route::get('report', [ManagerReportController::class, 'index'])->name('report');
     Route::get('generate-report')->name('generate.report');
-})->middleware(['auth']);
+})->middleware(['auth', 'role.check:Manager']);
 
 Route::get(
     'report',
