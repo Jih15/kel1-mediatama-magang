@@ -32,7 +32,7 @@
                     <div class="grid grid-cols-1 gap-4 lg:grid-cols-6 lg:gap-8 mb-5">
                         <div class="bg-transparent">
                             <label for="UserAdmin">
-                                <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Admin Nane</span>
+                                <span class="text-sm font-medium text-gray-700 dark:text-gray-200">Admin Name</span>
                                 <select name="user_id" id="UserAdmin"
                                     class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white">
                                     <option value="">Please select</option>
@@ -104,41 +104,40 @@
 
                     </div>
 
-                    <div class="overflow-x-auto rounded border border-gray-300 shadow-sm dark:border-gray-600">
-                        <table class="w-full min-w-max divide-y-2 divide-gray-200 dark:divide-gray-700">
-                            <thead class="text-left">
-                                <tr class="*:font-medium *:text-gray-900 dark:*:text-white">
-                                    <th class="px-3 py-2 w-10">No</th>
-                                    <th class="px-3 py-2">Admin Name</th>
-                                    <th class="px-3 py-2">Type</th>
-                                    <th class="px-3 py-2">Category</th>
-                                    <th class="px-3 py-2">Date</th>
-                                    <th class="px-3 py-2">Action</th>
+                    <div class="overflow-x-auto rounded border border-gray-300 dark:border-gray-600">
+                        <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead>
+                                <tr class="bg-gray-100 dark:bg-gray-700 *:px-3 *:py-2 *:text-left">
+                                    <th>No</th>
+                                    <th>Admin Name</th>
+                                    <th>Type</th>
+                                    <th>Category</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                                {{-- @foreach ($transaction as $index => $item) --}}
-                                <tr class="*:text-gray-900 *:first:font-medium">
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <td class="px-3 py-2 whitespace-nowrap"></td>
-                                    <th class="px-3 py-2">
-                                        <div class="flex gap-3">
-                                            <a href=""
-                                                class="inline-block rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 transition">
-                                                Detail
-                                            </a>
-                                        </div>
+                                @forelse ($data as $index => $item)
+                                    <tr class="*:px-3 *:py-2">
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $item->user->name ?? '-' }}</td>
+                                        <td class="capitalize">{{ $item->type }}</td>
+                                        <td>{{ $item->category->name ?? '-' }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->date)->format('d M Y') }}</td>
+                                        <td>
+                                            <a href="#"
+                                                class="rounded bg-green-600 px-4 py-1 text-white text-sm hover:bg-green-700">Detail</a>
                                         </td>
-                                </tr>
-                                {{-- @endforeach --}}
-
-                                </tr>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center py-3 text-gray-500">No data found</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>
