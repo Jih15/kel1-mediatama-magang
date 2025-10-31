@@ -15,7 +15,7 @@ class Categories extends Model
 
     protected $fillable = [
         'name',
-        'type',
+        // 'type',
     ];
 
     public function transactions()

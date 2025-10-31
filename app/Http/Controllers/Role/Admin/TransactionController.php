@@ -52,7 +52,7 @@ class TransactionController extends Controller
 
         if ($simpan->amount > 10000000) {
             $manager = User::where('role', 'manager')->select('email')->first();
-        // dd($manager);
+            // dd($manager);
 
             $notifikasi = new Notifications();
             $notifikasi->transaction_id = $simpan->transaction_id;
@@ -61,14 +61,12 @@ class TransactionController extends Controller
             $notifikasi->save();
 
             app(\App\Http\Controllers\MailController::class)
-                ->index($manager['email'],"Transaksi besar tercatat: Rp " . number_format($simpan->amount) );
-
+                ->index($manager['email'], "Transaksi besar tercatat: Rp " . number_format($simpan->amount));
         }
-        
+
         return redirect()
             ->route('admin.transaction.index')
             ->with('success', 'Transaksi berhasil disimpan!');
-
     }
 
     /**
@@ -79,7 +77,7 @@ class TransactionController extends Controller
         /**
          Perhatikan isi dari data transaksi, tampilkan semuanya.
          */
-         $transaction = Transactions::with('category', 'user')->findOrFail($id);
+        $transaction = Transactions::with('category', 'user')->findOrFail($id);
 
         return view('role.admin.transaction.show', compact('transaction'));
     }
@@ -89,7 +87,7 @@ class TransactionController extends Controller
      */
     public function edit(string $id)
     {
-        
+
         $category = Categories::all();
         $transaction = Transactions::where('transaction_id', $id)->first();
 
@@ -195,6 +193,4 @@ class TransactionController extends Controller
         return redirect()->route('admin.transaction.index')
             ->with('success', 'Transaction deleted successfully');
     }
-
-
 }

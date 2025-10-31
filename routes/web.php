@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Role\Admin\CategoryController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Role\Admin\AdminController;
@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::resource('transaction', TransactionController::class);
+    Route::resource('category', CategoryController::class);
     Route::get('report', [ReportController::class, 'index'])->name('report');
     Route::post('generate-report')->name('generate.report');
 })->middleware(['auth', 'role.check:Admin']);

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ 'Transaction' }}
+            {{ 'Category' }}
         </h2>
     </x-slot>
 
@@ -10,10 +10,10 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold dark:text-gray-100 text-gray-900">Transaction Data</h3>
-                        <a href="{{ route('admin.transaction.create') }}"
+                        <h3 class="text-lg font-semibold dark:text-gray-100 text-gray-900">Category Data</h3>
+                        <a href="{{ route('admin.category.create') }}"
                             class="inline-block rounded-lg bg-teal-700 px-5 py-2 text-sm font-medium text-white shadow hover:bg-teal-900 focus:outline-none focus:ring focus:ring-indigo-300 transition">
-                            Add Transaction
+                            Add Category
                         </a>
                     </div>
 
@@ -79,43 +79,28 @@
                         </div>
                     @endif
                     {{-- End Error Alert --}}
-                    @if ($transaction->count() > 0)
+                    @if ($categories->count() > 0)
                         <div class="overflow-x-auto rounded border border-gray-300 shadow-sm dark:border-gray-600">
                             <table class="w-full min-w-max divide-y-2 divide-gray-200 dark:divide-gray-700">
                                 <thead class="text-left">
                                     <tr class="*:font-medium *:text-gray-900 dark:*:text-white *:font-bold">
                                         <th class="px-3 py-2 w-10">No</th>
-                                        <th class="px-3 py-2">Type</th>
-                                        <th class="px-3 py-2">Category</th>
-                                        <th class="px-3 py-2">Amount</th>
-                                        <th class="px-3 py-2">Date</th>
-                                        <th class="px-3 py-2">Created By</th>
-                                        {{-- <th class="px-3 py-2">Created By</th> --}}
-                                        <th class="px-3 py-2">Action</th>
+                                        <th class="px-3 py-2 w-auto">Category Name</th>
+                                        <th class="px-3 py-2 w-auto">Action</th>
                                     </tr>
                                 </thead>
 
                                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700 ">
-                                    @foreach ($transaction as $index => $item)
+                                    @foreach ($categories as $index => $item)
                                         <tr class="*:text-gray-900 *:first:font-medium ">
                                             <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">
                                                 {{ $index + 1 }}</td>
                                             <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">
-                                                {{ $item->type }}</td>
-                                            <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">
-                                                {{ $item->category->name ?? '-' }}</td>
-                                            <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">
-                                                {{ number_format($item->amount, 0, ',', '.') }}</td>
-                                            <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">
-                                                {{ \Carbon\Carbon::parse($item->transaction_date)->format('d M Y') }}
-                                            </td>
-                                            <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">
-                                                {{ $item->user->name ?? '-' }}</td>
-                                            {{-- <a href="{{ route('admin.transaction.edit', $item->transaction_id) }}" class="text-indigo-500 hover:underline">Edit</a> --}}
-                                            <th class="px-3 py-2">
+                                                {{ $item->name }}</td>
+                                            <td class="px-3 py-2">
                                                 <div class="flex gap-3">
 
-                                                    <a href="{{ route('admin.transaction.edit', $item->transaction_id) }}"
+                                                    <a href="{{ route('admin.category.edit', $item->category_id) }}"
                                                         class="text-grey-600 hover:text-grey-800 transition"
                                                         title="Edit">
                                                         <!-- Pencil Icon -->
@@ -127,41 +112,19 @@
                                                         </svg>
                                                     </a>
                                                     <button type="button"
-                                                        @click="openModal = true; deleteId = '{{ $item->transaction_id }}'"
+                                                        @click="openModal = true; deleteId = '{{ $item->category_id }}'"
                                                         class="text-red-600 hover:text-red-800 transition pl-5"
                                                         title="Delete">
                                                         <!-- Trash Icon -->
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="2"
-                                                            stroke="currentColor" class="w-6 h-6">
+                                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                            class="w-6 h-6">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 d="M6 7h12M9 7V4h6v3m2 0v13a2 2 0 01-2 2H8a2 2 0 01-2-2V7h10z" />
                                                         </svg>
                                                     </button>
-
-                                                    <a href="{{ route('admin.transaction.show', $item->transaction_id) }}"
-                                                        class="text-teal-600 hover:text-teal-800 transition pl-5"
-                                                        title="Detail">
-                                                        <!-- Exclamation Circle Icon -->
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="2"
-                                                            stroke="currentColor" class="w-6 h-6">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M12 9v3m0 4h.01M12 4a8 8 0 110 16 8 8 0 010-16z" />
-                                                        </svg>
-                                                    </a>
-                                                    {{-- <form action="{{ route('admin.transaction.destroy', $item->transaction_id) }}" method="POST" class="inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition"
-                                                            onclick="return confirm('Are you sure want to delete this transaction?')">Delete</button>
-                                                </form> --}}
-                                                    {{-- <a href="#"
-                                                    class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
-                                                    Delete
-                                                </a> --}}
                                                 </div>
-                                                </td>
+                                            </td>
                                         </tr>
                                         <!-- MODAL KONFIRMASI DELETE -->
                                         <div x-show="openModal" x-cloak x-transition
@@ -187,7 +150,7 @@
                                                         Cancel
                                                     </button>
 
-                                                    <form :action="`/admin/transaction/${deleteId}`" method="POST">
+                                                    <form :action="`/admin/category/${deleteId}`" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"
@@ -225,8 +188,7 @@
                                         Cancel
                                     </button>
 
-                                    <form action="{{ route('admin.transaction.destroy', $item->transaction_id) }}"
-                                        method="POST">
+                                    <form action="{{ route('admin.category.destroy', $item->category_id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -239,7 +201,7 @@
                         </div>
                         <!-- END MODAL -->
                     @else
-                        <p class="text-gray-500 dark:text-gray-300">Belum ada data transaksi.</p>
+                        <p class="text-gray-500 dark:text-gray-300">Belum ada data category.</p>
                     @endif
                 </div>
             </div>
