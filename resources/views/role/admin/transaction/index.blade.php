@@ -98,43 +98,56 @@
                                         <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ $item->user->name ?? '-' }}</td>
                                         {{-- <a href="{{ route('admin.transaction.edit', $item->transaction_id) }}" class="text-indigo-500 hover:underline">Edit</a> --}}
                                         <th class="px-3 py-2">
-                                            <div class="flex gap-3">
+                                            <div class="flex items-center gap-3">
 
-                                                <a href="{{ route('admin.transaction.edit',$item->transaction_id) }}"
-                                                    class="text-grey-600 hover:text-grey-800 transition" title="Edit">
-                                                    <!-- Pencil Icon -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 11l6.536-6.536a2 2 0 112.828 2.828L11.828 13.828a2 2 0 01-1.414.586H8v-2.414a2 2 0 01.586-1.414z" />
+                                                {{-- Edit Button --}}
+                                                <a href="{{ route('admin.transaction.edit', $item->transaction_id) }}"
+                                                    class="text-blue-600 hover:text-blue-800 transition transform hover:scale-110" title="Edit">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-6 h-6"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                        stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M16.862 4.487l1.687 1.687a1.5 1.5 0 010 2.121L9.75 17.094l-3.621.604.604-3.621 8.799-8.799a1.5 1.5 0 012.121 0z" />
                                                     </svg>
                                                 </a>
+
+                                                {{-- Delete Button --}}
                                                 <button type="button"
                                                     @click="openModal = true; deleteId = '{{ $item->transaction_id }}'"
-                                                    class="text-red-600 hover:text-red-800 transition pl-5" title="Delete">
-                                                    <!-- Trash Icon -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7V4h6v3m2 0v13a2 2 0 01-2 2H8a2 2 0 01-2-2V7h10z" />
+                                                    class="text-red-600 hover:text-red-800 transition transform hover:scale-110"
+                                                    title="Delete">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-6 h-6"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                        stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M6 7h12M9 7V4h6v3m2 0v12a2 2 0 01-2 2H8a2 2 0 01-2-2V7z" />
                                                     </svg>
                                                 </button>
 
-                                                <a href="{{ route('admin.transaction.show',$item->transaction_id) }}"
-                                                    class="text-teal-600 hover:text-teal-800 transition pl-5" title="Detail">
-                                                    <!-- Exclamation Circle Icon -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 4h.01M12 4a8 8 0 110 16 8 8 0 010-16z" />
+                                                {{-- Detail Button --}}
+                                                <a href="{{ route('admin.transaction.show', $item->transaction_id) }}"
+                                                    class="text-teal-600 hover:text-teal-800 transition transform hover:scale-110"
+                                                    title="Detail">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-6 h-6"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                        stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M13 16h-1v-4h-1m1-4h.01M12 19a7 7 0 100-14 7 7 0 000 14z" />
                                                     </svg>
                                                 </a>
-                                                {{-- <form action="{{ route('admin.transaction.destroy', $item->transaction_id) }}" method="POST" class="inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition"
-                                                            onclick="return confirm('Are you sure want to delete this transaction?')">Delete</button>
-                                                </form> --}}
-                                                {{-- <a href="#"
-                                                    class="inline-block rounded-lg bg-red-600 px-5 py-2 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 transition">
-                                                    Delete
-                                                </a> --}}
+
                                             </div>
-                                        </td>
+                                        </th>
+
                                     </tr>
                                     <!-- MODAL KONFIRMASI DELETE -->
                                     <div x-show="openModal" x-cloak x-transition
