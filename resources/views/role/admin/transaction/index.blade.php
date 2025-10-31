@@ -90,7 +90,7 @@
                                     @foreach ( $transaction as $index => $item )
                                     <tr class="*:text-gray-900 *:first:font-medium ">
                                         <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ $index + 1 }}</td>
-                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">lala</td>
+                                        <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ $item->type }}</td>
                                         <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ $item->category->name ?? '-'}}</td>
                                         <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ number_format($item->amount, 0, ',', '.') }}</td>
                                         <td class="px-3 py-2 whitespace-nowrap dark:text-neutral-50">{{ \Carbon\Carbon::parse($item->transaction_date)->format('d M Y') }}</td>
@@ -98,7 +98,7 @@
                                         {{-- <a href="{{ route('admin.transaction.edit', $item->transaction_id) }}" class="text-indigo-500 hover:underline">Edit</a> --}}
                                         <th class="px-3 py-2">
                                             <div class="flex gap-3">
-                                                
+
                                                 <a href="{{ route('admin.transaction.edit',$item->transaction_id) }}"
                                                     class="text-orange-600 hover:text-orange-800 transition" title="Edit">
                                                     <!-- Pencil Icon -->
@@ -133,9 +133,9 @@
                                         </td>
                                     </tr>
                                     <!-- MODAL KONFIRMASI DELETE -->
-                                    <div x-show="openModal" x-cloak x-transition 
-                                        class="fixed inset-0 z-50 grid place-content-center 
-                                                backdrop-blur-ld 
+                                    <div x-show="openModal" x-cloak x-transition
+                                        class="fixed inset-0 z-50 grid place-content-center
+                                                backdrop-blur-ld
                                                 p-4" role="dialog" aria-modal="true">
                                         <div
                                             class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800 dark:text-gray-100">

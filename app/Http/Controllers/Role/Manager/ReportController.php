@@ -15,20 +15,24 @@ class ReportController extends Controller
     {
         $users = User::where('role', 'admin')->get();
         $categories = Categories::all();
-        $query = Transactions::with('category');
+        $query = Transactions::with('category', 'user');
 
+        // Filter berdasarkan admin
         if ($request->filled('user_id')) {
             $query->where('user_id', $request->user_id);
         }
 
+        // Filter berdasarkan tipe
         if ($request->filled('type')) {
             $query->where('type', $request->type);
         }
 
+        // Filter berdasarkan kategori
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
 
+        // Filter bulan & tahun
         if ($request->filled('month') && $request->filled('year')) {
             $query->whereMonth('date', $request->month)
                 ->whereYear('date', $request->year);
@@ -36,14 +40,12 @@ class ReportController extends Controller
 
         $data = $query->orderBy('date', 'DESC')->get();
 
-        return view('role.manager.report.index', compact('data', 'categories', 'users'));
+        return view('role.manager.report.index', compact('data', 'categories', 'users', 'request'));
     }
-
 
     public function generateReport(ReportRequest $request)
     {
-
-        //disini buat dompdfnya
-        //panggil template role.manager.report.report_doc
+        // nanti isi DomPDF disini
+        // return view('role.manager.report.report_doc', compact('data', 'request'));
     }
 }
