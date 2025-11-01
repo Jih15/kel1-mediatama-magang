@@ -8,6 +8,7 @@ use App\Http\Controllers\Role\Admin\ReportController;
 use App\Http\Controllers\Role\Admin\TransactionController;
 use App\Http\Controllers\Role\Manager\ManagerController;
 use App\Http\Controllers\Role\Manager\ReportController as ManagerReportController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,7 +27,11 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    if (Auth::user()->role == 'admin') {
+        return redirect()->route('admin.dashboard');
+    } else {
+        return redirect()->route('manager.dashboard');
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
